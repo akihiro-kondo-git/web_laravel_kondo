@@ -1,0 +1,7 @@
+
+/*入力必須項目のアスタリスク表示*/
+.required:after {
+    content: " *";
+    color: red;
+}
+

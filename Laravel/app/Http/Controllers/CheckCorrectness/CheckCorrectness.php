@@ -10,7 +10,7 @@ class CheckCorrectness {
     $employee_id = $_GET['employee_id'];
     $family_name = $_GET['family_name'];
     $first_name = $_GET['first_name'];
-    $belonging_section = $_GET['belonging_section'];
+    $section_id = $_GET['section_id'];
     $mail_address = $_GET['mail_address'];
 
 

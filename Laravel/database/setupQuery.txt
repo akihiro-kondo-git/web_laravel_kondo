@@ -1,0 +1,21 @@
+DROP DATABASE IF EXISTS company_directory;
+CREATE DATABASE company_directory;
+
+DROP TABLE IF EXISTS employee;
+CREATE TABLE employee (
+        id SERIAL,
+        employee_id varchar(10) UNIQUE,
+        family_name varchar(20),
+        first_name varchar(20),
+        secton_id int,
+        mail varchar(256),
+        gender_id int,
+        PRIMARY KEY(id)
+    );
+    
+
+INSERT INTO employee VALUES
+(default, 'YZ00000001', 'やじゅ', '太郎', 1, 'taro_yaz.co.jp', 1),
+(default, 'YZ00000002', 'やじゅ', '次郎', 2, 'taro_yaz.co.jp', 1),
+(default, 'YZ12345678', 'やじゅ', '花子', 3, 'taro_yaz.co.jp', 2);
+
