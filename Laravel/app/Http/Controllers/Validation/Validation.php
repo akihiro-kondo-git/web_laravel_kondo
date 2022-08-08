@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\CheckCorrectness;
+namespace App\Http\Controllers\Validation;
 
-class CheckCorrectness {
+class Validation {
 
     static public function check(){
 

@@ -13,8 +13,8 @@
             </td></tr>
 
             <tr><td class="required">社員名</td><td>
-                <input type="text" size="7" name="family_name" required>
-                <input type="text" size= "7" name= "first_name" required>
+                <input type="text" size="7" name="family_name" maxlength="25" required>
+                <input type="text" size= "7" name= "first_name" maxlength="25" required>
             </td></tr>
 
             <tr><td class="required" >所属セクション</td><td>
@@ -26,7 +26,7 @@
             </td></tr>
 
             <tr><td class="required">メールアドレス</td><td>
-                <input type="text" name ="mail_address" placeholder="taro_yaz@yaz.co.jp" required>
+                <input type="text" name ="mail_address" placeholder="taro_yaz@yaz.co.jp"maxlength="256" required>
             </td></tr>
             
             <tr><td class="required">性別</td><td>
