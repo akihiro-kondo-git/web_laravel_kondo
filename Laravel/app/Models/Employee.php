@@ -10,10 +10,10 @@ class Employee extends Model
 {
     use HasFactory;
     
+    //explain: Employeeデータ登録メソッド
     static public function regist_employee(){
 
-
-        //データの取得
+        //explain: データの取得
         $employee_id = $_GET['employee_id'];
         $family_name = $_GET['family_name'];
         $first_name = $_GET['first_name'];
@@ -24,23 +24,50 @@ class Employee extends Model
 
         //explain: データベースへの接続
         $link = pg_connect("host=localhost dbname=company_directory user=homestead password=secret");
-        
-        //comment: 下記はデータベース接続確認用コードです。
-        // if (!$link) { die('接続失敗です。'.pg_last_error());}
-        // print('接続に成功しました。<br>');
+        if (!$link) { die('接続失敗です。'.pg_last_error());}
 
     
         //explain: テーブルへの登録
         $sql = "INSERT INTO employee VALUES (default, '$employee_id', '$family_name', '$first_name', $section_id, '$mail_address', $gender_id)";
         pg_query($sql);
-
-        //comment: 下記はINSERTクエリーでエラーが出た場合の確認コードです。
-        // if (!$result_flag) {die('INSERTクエリーが失敗しました。'.pg_last_error());}   
+ 
 
         //explain: データベースの切断
         $close_flag = pg_close($link);
+        if (!$close_flag){print('切断に失敗しました。<br>');}
+    }
 
-        //comment:下記はデータベースの接続確認用コードです。
-        //if ($close_flag){print('切断に成功しました。<br>');}
+    
+    //explain　Employeeデータ表示メソッド
+    static public function get_employee(){
+
+        //explain: データベースへの接続
+        $link = pg_connect("host=localhost dbname=company_directory user=homestead password=secret");
+        if (!$link) { die('接続失敗です。'.pg_last_error());}
+  
+        //explain: テーブルデータの取得
+        $sql = "SELECT employee_id FROM employee";
+        $result = pg_query("SELECT * FROM employee");
+
+        //explain: 取得したデータを配列に格納
+        for ($i = 0 ; $i < pg_num_rows($result) ; $i++){
+            $row = pg_fetch_array($result, NULL, PGSQL_ASSOC);
+            $employee_data[$i][1]= $row['employee_id'];
+            $employee_data[$i][2]=$row['family_name'];
+            $employee_data[$i][3]=$row['first_name'];
+            $employee_data[$i][4]=$row['section_id'];
+            $employee_data[$i][5]=$row['mail'];
+            $employee_data[$i][6] =$row['gender_id'];
+        }
+    
+
+        //explain: データベースの切断
+        $close_flag = pg_close($link);
+        if (!$close_flag){print('切断に失敗しました。<br>');}
+
+
+        return $employee_data;
+
     }
 }
+
