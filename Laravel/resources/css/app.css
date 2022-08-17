@@ -1,6 +1,6 @@
-
+/* 現在以下のファイルは読み込めていません(08/16) */
 /*入力必須項目のアスタリスク表示*/
-.required:after {
+.required input:after {
     content: " *";
     color: red;
 }

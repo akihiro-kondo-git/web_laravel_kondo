@@ -11,16 +11,18 @@ class ResultRegistController extends Controller
 {
     public function index(){
         
-        //explain: 正規表現に合致しない場合は「社員登録画面に遷移」
-        if(Validation::check() == false){
+        //explain: サーバーサイドでの入力チェック
+        //         入力チェックエラーの場合は「社員登録画面」に遷移
+        if(Validation::InputCheck() == false){
             return view('regist-employee');
         }
+
         //explain: 社員の登録
-        if(Validation::check() ==true){
+        if(Validation::InputCheck() == true){
             $employee = new Employee;
             $employee->regist_employee();
         }
-        //explain: 正規表現に合致する場合は「登録結果画面に遷移」
+        //explain: 「登録結果画面」に遷移
         return view('result-regist');
     }
 }

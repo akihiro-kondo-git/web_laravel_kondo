@@ -4,6 +4,7 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\RegistEmployeeController;
 use App\Http\Controllers\ListEmployeeController;
 use App\Http\Controllers\ResultRegistController;
+use App\Http\Controllers\ReferEmployeeController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -31,5 +32,5 @@ Route::get('/menu', [MenuController::class, 'index'])->name('menu');
 Route::get('/regist-employee', [RegistEmployeeController::class, 'index'])->name('regist-employee');
 Route::get('/list-employee', [ListEmployeeController::class, 'index'])->name('list-employee');
 Route::get('/result-regist', [ResultRegistController::class, 'index'])->name('result-regist');
-
+Route::get('/refer-employee', [ReferEmployeeController::class, 'index'])->name('refer-employee');
 

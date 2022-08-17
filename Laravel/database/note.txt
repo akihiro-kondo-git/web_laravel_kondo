@@ -1,0 +1,4 @@
+PosgreSQLへのログインコマンド：psql -U homestead -h localhost -d company_directory
+ログインパスワード：secret
+
+
