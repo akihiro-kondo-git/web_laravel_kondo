@@ -1,23 +1,7 @@
 /* 現在以下のファイルは読み込めていません(08/16) */
 /*入力必須項目のアスタリスク表示*/
-.required:after {
+.required input:after {
     content: " *";
     color: red;
-}
-.asterisk:before {
-    content: " *";
-    color: red;
-
-}
-.require_box{
-    position: relative;
-    left: 30px;
-    bottom: 20px;
-}
-
-.error {
- padding:12px;
- font-weight:850;
- color: red;
 }
 

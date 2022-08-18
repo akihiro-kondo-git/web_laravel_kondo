@@ -1,4 +1,4 @@
-<?php use App\Http\Controllers\Message\Message;?>
+<?php use App\Http\Controllers\ErrorMessage\ErrorMessage;?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,7 +7,7 @@
 
 <body>
 
-    <p><?php echo Message::$resultMessage;?></p>
+    <p><?php echo ErrorMessage::$resultMessage;?></p>
 
         ・<a href = "{{route('regist-employee')}}">社員登録画面</a>
         <br>

@@ -1,6 +1,3 @@
-<?php
-use App\Http\Controllers\EmployeeData\EmployeeData;
-?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,29 +6,29 @@ use App\Http\Controllers\EmployeeData\EmployeeData;
 
 <body>
         <table>
-            <tr ><td>社員ID</td><td>&emsp;
-            <?php echo EmployeeData::$employee_id?>
+            <tr ><td>社員ID</td><td>
+            
             </td></tr>
-          
-            <tr><td >社員名</td><td>&emsp;
-            <?php echo EmployeeData::$employee_name?>
-            </td></tr>
-           
-            <tr><td>所属セクション</td><td>&emsp;
-            <?php echo EmployeeData::$section_name?>
+            
+            <tr><td >社員名</td><td>
+            
             </td></tr>
 
-            <tr><td>メールアドレス</td><td>&emsp;
-            <?php echo EmployeeData::$mail_address?>
+            <tr><td>所属セクション</td><td>
+            
             </td></tr>
 
-            <tr><td>性別</td><td>&emsp;
-            <?php echo EmployeeData::$gender?>
+            <tr><td>メールアドレス</td><td>
+            
+            </td></tr>
+
+            <tr><td>性別</td><td>
+            
             </td></tr>
         </table>
 
     <br>
-    <a href = "{{route('list-employee')}}">社員一覧画面</a></br>
+    <a href = "{{route('list-employee')}}">社員一覧画面</a>
     <a href = "{{route('menu')}}">メニュー画面</a>
 
 </body>

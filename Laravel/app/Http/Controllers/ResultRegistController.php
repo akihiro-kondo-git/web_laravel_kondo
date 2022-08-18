@@ -11,7 +11,8 @@ class ResultRegistController extends Controller
 {
     public function index(){
         
-        //explain: サーバーサイドでの入力チェックエラーの場合は「社員登録画面」に遷移
+        //explain: サーバーサイドでの入力チェック
+        //         入力チェックエラーの場合は「社員登録画面」に遷移
         if(Validation::InputCheck() == false){
             return view('regist-employee');
         }
@@ -21,7 +22,6 @@ class ResultRegistController extends Controller
             $employee = new Employee;
             $employee->regist_employee();
         }
-        
         //explain: 「登録結果画面」に遷移
         return view('result-regist');
     }

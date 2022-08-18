@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Validation;
 
-use App\Http\Controllers\Message\Message;
+use App\Http\Controllers\ErrorMessage\ErrorMessage;
 use App\Models\Employee;
 
 class Validation
@@ -36,12 +36,12 @@ class Validation
         $gender_id = $_GET['gender_id'];
 
         //explain: エラーメッセージの表示
-        if (empty($employee_id)) {Message::pushMessage("社員IDを入力してください");}
-        if (empty($family_name)) {Message::pushMessage("社員名(性)を入力してください");}
-        if (empty($first_name)) {Message::pushMessage("社員名(名)を入力してください");}
-        if (empty($section_id)) {Message::pushMessage("所属セクションを入力してください");}
-        if (empty($mail_address)) {Message::pushMessage("メールアドレスを入力してください");}
-        if (empty($gender_id)) {Message::pushMessage("性別を入力してください");}
+        if (empty($employee_id)) {ErrorMessage::pushMessage("社員IDを入力してください");}
+        if (empty($family_name)) {ErrorMessage::pushMessage("社員名(性)を入力してください");}
+        if (empty($first_name)) {ErrorMessage::pushMessage("社員名(名)を入力してください");}
+        if (empty($section_id)) {ErrorMessage::pushMessage("所属セクションを入力してください");}
+        if (empty($mail_address)) {ErrorMessage::pushMessage("メールアドレスを入力してください");}
+        if (empty($gender_id)) {ErrorMessage::pushMessage("性別を入力してください");}
 
         //explain: 入力されていない場合は「社員登録画面」に遷移
         //          入力されている場合は「登録結果画面」に遷移
@@ -65,7 +65,7 @@ class Validation
         //explain: エラーメッセージの表示
         if (strlen($employee_id) < 10
             || strlen($employee_id) > 10) {
-            Message::pushMessage("社員IDは10文字で入力してください");
+            ErrorMessage::pushMessage("社員IDは10文字で入力してください");
             return false;
         }
         return true;
@@ -81,9 +81,9 @@ class Validation
         $mail_address = $_GET['mail_address'];
 
         //explain: エラーメッセージの表示
-        if (strlen($family_name) >= 25) {Message::pushMessage("社員名(性)は25文字以内で入力してください");}
-        if (strlen($first_name) >= 25) {Message::pushMessage("社員名(名)は25文字以内で入力してください");}
-        if (strlen($mail_address) >= 256) {Message::pushMessage("メールアドレスは256文字以内で入力してください");}
+        if (strlen($family_name) >= 25) {ErrorMessage::pushMessage("社員名(性)は25文字以内で入力してください");}
+        if (strlen($first_name) >= 25) {ErrorMessage::pushMessage("社員名(名)は25文字以内で入力してください");}
+        if (strlen($mail_address) >= 256) {ErrorMessage::pushMessage("メールアドレスは256文字以内で入力してください");}
 
         //explain: 最大桁数以上の場合は「社員登録画面」に遷移
         //          適切な入力の場合は「登録結果画面」に遷移
@@ -122,10 +122,10 @@ class Validation
             //explain: エラーメッセージの表示
             if ($database_employee_id == $employee_id) {
                 $judge_employee_id = false;
-                Message::pushMessage("入力した社員IDはすでに登録されています");}
+                ErrorMessage::pushMessage("入力した社員IDはすでに登録されています");}
             if ($database_mail_address == $mail_address) {
                 $judge_mail_address = false;
-                Message::pushMessage("入力したメールアドレスはすでに登録されています");}
+                ErrorMessage::pushMessage("入力したメールアドレスはすでに登録されています");}
 
             //explain: 重複項目がある場合は「社員登録画面」に遷移
             //         重複が無い場合は「登録結果画面」に遷移
@@ -154,10 +154,10 @@ class Validation
         $validation_check = $correct_employee_id + $correct_section_id + $correct_mail_address + $correct_gender_id;
 
         //explain: エラーメッセージの表示
-        if ($correct_employee_id == 0) {Message::pushMessage("社員IDを正しく入力してください");}
-        if ($correct_section_id == 0) {Message::pushMessage("所属セクションを正しく入力してください");}
-        if ($correct_mail_address == 0) {Message::pushMessage("メールアドレスを正しく入力してください");}
-        if ($correct_gender_id == 0) {Message::pushMessage("性別を正しく入力してください");}
+        if ($correct_employee_id == 0) {ErrorMessage::pushMessage("社員IDを正しく入力してください");}
+        if ($correct_section_id == 0) {ErrorMessage::pushMessage("所属セクションを正しく入力してください");}
+        if ($correct_mail_address == 0) {ErrorMessage::pushMessage("メールアドレスを正しく入力してください");}
+        if ($correct_gender_id == 0) {ErrorMessage::pushMessage("性別を正しく入力してください");}
 
         //explain: 正規表現に合致しない場合は「社員登録画面」に遷移
         //                  合致する場合は「登録結果画面」に遷移
@@ -166,4 +166,38 @@ class Validation
         }
         return true;
     }
+
+    // //method: 正規表現の判定
+    // public static function CorrectionCheck()
+    // {
+
+    //     //explain: 入力された値の取得
+    //     $employee_id = $_GET['employee_id'];
+    //     $family_name = $_GET['family_name'];
+    //     $first_name = $_GET['first_name'];
+    //     $section_id = $_GET['section_id'];
+    //     $mail_address = $_GET['mail_address'];
+    //     $gender_id = $_GET['gender_id'];
+
+    //     //explain: 必須判定・桁数判定・最大桁数判定・書式判定を準備
+    //     $correct_employee_id = preg_match("/^[YZ]+([0-9]{8})/", $employee_id);
+    //     $correct_family_name = preg_match("/.{0,25}/", $family_name);
+    //     $correct_first_name = preg_match("/.{0,25}/", $first_name);
+    //     $correct_section_id = preg_match("/[1-3]/", $section_id);
+    //     $correct_mail_address = preg_match("/^[a-zA-Z0-9_.+-]{0,128}+[@]+[a-zA-Z0-9.-]{0,128}+$/", $mail_address); //Todo: メールアドレスはユーザー名が128文字以下とドメイン名が128文字以下の256文字以下に設定されているため後に修正
+    //     $correct_gender_id = preg_match("/[1-2]/", $gender_id);
+    //     $validation_check = $correct_employee_id
+    //          + $correct_family_name
+    //          + $correct_first_name
+    //          + $correct_section_id
+    //          + $correct_mail_address;
+
+    //     //explain: 正規表現に合致しない場合は「社員登録画面」に遷移
+    //     //                  合致する場合は「登録結果画面」に遷移
+    //     if ($validation_check != 5) {
+    //         return false;
+    //     }
+    //     return true;
+    // }
+
 }

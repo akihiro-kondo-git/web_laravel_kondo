@@ -2,19 +2,15 @@
 
 namespace App\Models;
 
-use App\Http\Controllers\Message\Message;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Http\Controllers\ErrorMessage\ErrorMessage;
 
 class Employee extends Model
 {
     use HasFactory;
 
-//--------------------------------------------------------------------------------------------------//
-//---------------------------------PDOを利用しないデータベース操作------------------------------------//
-//--------------------------------------------------------------------------------------------------//
-
-//////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////PDOを利用しないデータベース操作///////////////////////////////////
 
     //explain: Employeeデータ登録メソッド
     public static function regist_employee()
@@ -35,10 +31,10 @@ class Employee extends Model
         //explain: テーブルへの登録
         $sql = "INSERT INTO employee VALUES (default, '$employee_id', '$family_name', '$first_name', $section_id, '$mail_address', $gender_id)";
         pg_query($sql);
-        Message::setMessage("データを登録しました");
+        ErrorMessage::setMessage("データを登録しました");
 
     } catch (SQLException $e) {
-        Message::setMessage("データ登録に失敗しました");
+        ErrorMessage::setMessage("データ登録に失敗しました");
 
     } finally {
         //explain: データベースの切断
@@ -46,7 +42,7 @@ class Employee extends Model
         if (!$close_flag) {print('切断に失敗しました。<br>');}
     }
     }
-///////////////////////////////////////////////////////////////////////////////////////////////////
+
     //explain　Employeeデータ表示メソッド
     public static function get_employee()
     {try {
@@ -56,6 +52,7 @@ class Employee extends Model
         if (!$link) {die('接続失敗です。' . pg_last_error());}
 
         //explain: テーブルデータの取得
+        $sql = "SELECT employee_id FROM employee";
         $result = pg_query("SELECT * FROM employee");
 
         //explain: 取得したデータを配列に格納
@@ -79,45 +76,7 @@ class Employee extends Model
         return $employee_data;
 
     }
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-//explain　Employeeデータ表示メソッド
-    public static function get_Info($id)
-    {try {
-        $employee_data = array();
-        //explain: データベースへの接続
-        $link = pg_connect("host=localhost dbname=company_directory user=homestead password=secret");
-        if (!$link) {die('接続失敗です。' . pg_last_error());}
-
-        //explain: テーブルデータの取得
-        $sql = "SELECT * FROM employee WHERE employee_id = '$id'";
-        $result = pg_query($sql);
-
-        //explain: 取得したデータを配列に格納
-        $row = pg_fetch_array($result, null, PGSQL_ASSOC);
-        $employee_data[1] = $row['employee_id'];
-        $employee_data[2] = $row['family_name'];
-        $employee_data[3] = $row['first_name'];
-        $employee_data[4] = $row['section_id'];
-        $employee_data[5] = $row['mail'];
-        $employee_data[6] = $row['gender_id'];
-
-    } catch (SQLException $e) {
-        echo $e;
-    } finally {
-        //explain: データベースの切断
-        $close_flag = pg_close($link);
-        if (!$close_flag) {print('切断に失敗しました。<br>');}
-    }
-
-        return $employee_data;
-
-    }
-
-//--------------------------------------------------------------------------------------------------//
-//---------------------------------PDOを利用するデータベース操作------------------------------------//
-//--------------------------------------------------------------------------------------------------//
-
+    ////////////////////////////下記はPDOでのデータベース操作/////////////////////////////////
     //現在PDOは利用できていません(08/17)
     public static function PDO_regist_employee()
     {
