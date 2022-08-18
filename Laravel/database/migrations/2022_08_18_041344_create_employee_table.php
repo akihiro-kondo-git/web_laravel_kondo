@@ -16,10 +16,10 @@ return new class extends Migration
         Schema::create('employee', function (Blueprint $table) {
             $table->increments('id');
             $table->string('employee_id')->unique();
-            $table->char('family_name', 20);
-            $table->char('first_name', 20);
+            $table->string('family_name', 20);
+            $table->string('first_name', 20);
             $table->integer('section_id');
-            $table->char('mail', 256);
+            $table->string('mail', 256);
             $table->integer('gender_id');
         });
     }

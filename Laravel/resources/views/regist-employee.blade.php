@@ -6,9 +6,7 @@ use Illuminate\Http\Request;
 <!DOCTYPE html>
 <html>
 <head>
-    <!-- Todo: jsファイルとcssファイルが読み込めないため後に対処する必要あり(08/16) -->
-    <!-- <link rel="stylesheet" href= "css\app.css" type="text/css"> -->
-    <link href="{{ asset('Laravelresources\css\app.css') }}" rel="stylesheet">
+    <link href="{{ asset('requisition.css') }}" rel="stylesheet">
     <title>社員登録画面</title>
 </head>
 
@@ -46,7 +44,7 @@ use Illuminate\Http\Request;
             </td></tr>
 
             <tr><td class="required">メールアドレス</td><td>
-                <input id ="input_mail_address" type="text" pattern = "[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" 
+                <input id ="input_mail_address" type="text" pattern = "[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{,10}$" 
                 name ="mail_address" placeholder="taro_yaz@yaz.co.jp"maxlength="256" required>
             </td></tr>
 
@@ -65,36 +63,6 @@ use Illuminate\Http\Request;
 
 
 
-
-
-<!-- 以下css -->
-
-
-
-
-
-<style>
-        /* .required:after {
-            content: " *";
-            color: red;
-        }
-        .asterisk:before {
-            content: " *";
-            color: red;
-
-        }
-        .require_box{
-            position: relative;
-            left: 30px;
-            bottom: 20px;
-        }
-
-        .error {
-         padding:12px;
-         font-weight:850;
-         color: red;
-        } */
-    </style>
 
 
 

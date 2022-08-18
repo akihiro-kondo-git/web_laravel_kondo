@@ -22,7 +22,7 @@ class EmployeeTableSeeder extends Seeder
                     'family_name' => 'やじゅ',
                     'first_name' => '太郎',
                     'section_id' => '1',
-                    'mail' => 'taro_yaz.co.jp',
+                    'mail' => 'taro_yaz@yaz.co.jp',
                     'gender_id' => '1'
                  ],
                 [
@@ -31,7 +31,7 @@ class EmployeeTableSeeder extends Seeder
                     'family_name' => 'やじゅ',
                     'first_name' => '次郎',
                     'section_id' => '2',
-                    'mail' => 'taro_yaz.co.jp',
+                    'mail' => 'jiro_yaz@yaz.co.jp',
                     'gender_id' => '1'
                 ],
                 [
@@ -40,7 +40,7 @@ class EmployeeTableSeeder extends Seeder
                     'family_name' => 'やじゅ',
                     'first_name' => '花子',
                     'section_id' => '3',
-                    'mail' => 'taro_yaz.co.jp',
+                    'mail' => 'hanako_yaz@yaz.co.jp',
                     'gender_id' => '2'
                 ],
             ]);

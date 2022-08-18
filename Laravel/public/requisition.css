@@ -1,6 +1,5 @@
-/* 現在以下のファイルは読み込めていません(08/16) */
 /*入力必須項目のアスタリスク表示*/
-/* .required:after {
+.required:after {
     content: " *";
     color: red;
 }
@@ -19,5 +18,5 @@
  padding:12px;
  font-weight:850;
  color: red;
-} */
+}
 
