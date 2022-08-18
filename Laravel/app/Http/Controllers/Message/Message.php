@@ -1,8 +1,8 @@
 <?php
-namespace App\Http\Controllers\ErrorMessage;
+namespace App\Http\Controllers\Message;
 
-class ErrorMessage{
-    static $errorMessage = array();
+class Message{
+    static public $errorMessage = array();
     static public $resultMessage = "";
 
     //explain: 表示するエラーメッセージを配列に格納

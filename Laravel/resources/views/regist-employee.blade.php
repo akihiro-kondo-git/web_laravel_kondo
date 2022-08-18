@@ -1,21 +1,23 @@
 <?php
 namespace App\Homestead\Laravel\resources\views;
-use App\Http\Controllers\ErrorMessage\ErrorMessage;
+use App\Http\Controllers\Message\Message;
 use Illuminate\Http\Request;
 ?>
 <!DOCTYPE html>
 <html>
 <head>
     <!-- Todo: jsファイルとcssファイルが読み込めないため後に対処する必要あり(08/16) -->
+    <!-- <link rel="stylesheet" href= "css\app.css" type="text/css"> -->
+    <link href="{{ asset('Laravelresources\css\app.css') }}" rel="stylesheet">
     <title>社員登録画面</title>
 </head>
 
 <body>
 
 
-<?php for ($i=0 ; $i<count(ErrorMessage::$errorMessage); $i++):?> 
-<option class = "error" value = "<?php echo ErrorMessage::$errorMessage[$i];?>">
-<?php echo ErrorMessage::$errorMessage[$i];?></option>
+<?php for ($i=0 ; $i<count(Message::$errorMessage); $i++):?> 
+<option class = "error" value = "<?php echo Message::$errorMessage[$i];?>">
+<?php echo Message::$errorMessage[$i];?></option>
 <?php endfor ?>
 
 
@@ -72,7 +74,7 @@ use Illuminate\Http\Request;
 
 
 <style>
-        .required:after {
+        /* .required:after {
             content: " *";
             color: red;
         }
@@ -91,7 +93,7 @@ use Illuminate\Http\Request;
          padding:12px;
          font-weight:850;
          color: red;
-        }
+        } */
     </style>
 
 
