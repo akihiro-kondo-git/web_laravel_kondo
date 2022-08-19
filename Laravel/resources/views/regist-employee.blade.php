@@ -1,7 +1,7 @@
 <?php
 namespace App\Homestead\Laravel\resources\views;
+
 use App\Http\Controllers\Message\Message;
-use Illuminate\Http\Request;
 ?>
 <!DOCTYPE html>
 <html>
@@ -13,10 +13,10 @@ use Illuminate\Http\Request;
 <body>
 
 
-<?php for ($i=0 ; $i<count(Message::$errorMessage); $i++):?> 
-<option class = "error" value = "<?php echo Message::$errorMessage[$i];?>">
-<?php echo Message::$errorMessage[$i];?></option>
-<?php endfor ?>
+<?php for ($i = 0; $i < count(Message::$errorMessage); $i++): ?>
+<option class = "error" value = "<?php echo Message::$errorMessage[$i]; ?>">
+<?php echo Message::$errorMessage[$i]; ?></option>
+<?php endfor?>
 
 
 
@@ -29,9 +29,9 @@ use Illuminate\Http\Request;
             </td></tr>
 
             <tr><td class="required">社員名</td><td>
-                <input id = "input_family_name" pattern = ".{0,25}"type="text" 
+                <input id = "input_family_name" pattern = ".{0,25}"type="text"
                 size="7" name="family_name" maxlength="20" required>
-                <input id = "input_first_name" pattern = ".{0,25}"type="text" 
+                <input id = "input_first_name" pattern = ".{0,25}"type="text"
                 size= "7" name= "first_name" maxlength="20" required>
             </td></tr>
 
@@ -44,18 +44,18 @@ use Illuminate\Http\Request;
             </td></tr>
 
             <tr><td class="required">メールアドレス</td><td>
-                <input id ="input_mail_address" type="text" pattern = "[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{,10}$" 
+                <input id ="input_mail_address" type="text" pattern = "[a-z0-9._%+-]{1,256}[@][a-z0-9.-]{1,256}"
                 name ="mail_address" placeholder="taro_yaz@yaz.co.jp"maxlength="256" required>
             </td></tr>
 
             <tr><td class="required">性別</td><td>
-                <input id= "input_gender_id" pattern = "[1-2]" 
+                <input id= "input_gender_id" pattern = "[1-2]"
                 type="radio" name ="gender_id" value="1" required>男性
                 <input type="radio" name ="gender_id" value="2">女性
             </td></tr>
         </table>
         <span class = "require_box"><p class = "asterisk">必須項目</p></span>
-        <button type="submit" value="登録" onclick="error_css();">登録</button>
+        <button type="submit" value="登録" onclick = "error();">登録</button>
     </form>
     <br>
     <a href = "{{route('menu')}}">メニュー画面</a>
@@ -66,7 +66,7 @@ use Illuminate\Http\Request;
 
 
 
-    
+
 
 <!-- 以下JavaScript -->
 <script  language="JavaScript">
@@ -74,6 +74,9 @@ use Illuminate\Http\Request;
 
 
 
+
+
+function error(){
 
 //explain: 社員IDの必須チェック・桁数チェック・書式チェック
     var input_employee_id = document.getElementById("input_employee_id");
@@ -156,5 +159,6 @@ var input_gender_id = document.getElementById("input_gender_id");
         e.target.setCustomValidity("");
     }
 }, false);
+}
 </script>
 </html>

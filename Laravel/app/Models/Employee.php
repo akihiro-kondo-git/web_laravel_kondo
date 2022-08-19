@@ -9,6 +9,43 @@ use Illuminate\Database\Eloquent\Model;
 class Employee extends Model
 {
     use HasFactory;
+    protected $table = 'employee';
+    public $timestamps = false;
+    public $incrementing = true;
+
+//--------------------------------------------------------------------------------------------------//
+//---------------------------------Laravelのsaveメソッド------------------------------------//
+//--------------------------------------------------------------------------------------------------//
+
+
+    public static function save_regist_employee()
+    {
+
+        $employee = new \App\Models\Employee;
+
+        //explain: データの取得
+        $employee_id = $_GET['employee_id'];
+        $family_name = $_GET['family_name'];
+        $first_name = $_GET['first_name'];
+        $section_id = $_GET['section_id'];
+        $mail_address = $_GET['mail_address'];
+        $gender_id = $_GET['gender_id'];
+
+        //$current_id = $employee->select('id')->get();
+
+       
+        //$employee->id = 'defalut';
+        $employee->employee_id = $employee_id;
+        $employee->family_name = $family_name;
+        $employee->first_name = $first_name;
+        $employee->section_id = $section_id;
+        $employee->mail = $mail_address;
+        $employee->gender_id = $gender_id;
+        $employee->save();
+        Message::setMessage("データを登録しました");
+    }
+
+    
 
 //--------------------------------------------------------------------------------------------------//
 //---------------------------------PDOを利用しないデータベース操作------------------------------------//

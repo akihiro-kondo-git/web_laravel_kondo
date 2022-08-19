@@ -19,7 +19,7 @@ class ResultRegistController extends Controller
         //explain: 社員の登録
         if(Validation::InputCheck() == true){
             $employee = new Employee;
-            $employee->regist_employee();
+            $employee->save_regist_employee();
         }
         
         //explain: 「登録結果画面」に遷移
