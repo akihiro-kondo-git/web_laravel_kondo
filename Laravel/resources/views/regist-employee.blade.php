@@ -30,9 +30,9 @@ use App\Http\Controllers\Message\Message;
 
             <tr><td class="required">社員名</td><td>
                 <input id = "input_family_name" pattern = ".{0,25}"type="text"
-                size="7" name="family_name" maxlength="20" required>
+                size="7" name="family_name" max="20" required>
                 <input id = "input_first_name" pattern = ".{0,25}"type="text"
-                size= "7" name= "first_name" maxlength="20" required>
+                size= "7" name= "first_name" max="20" required>
             </td></tr>
 
             <tr><td class="required" >所属セクション</td><td>

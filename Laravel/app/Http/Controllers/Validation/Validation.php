@@ -9,18 +9,31 @@ class Validation
 {
     public static function InputCheck()
     {
-        //必須チェック
-        if (self::RequisitionCheck() == false) {return false;}
-        //桁数チェック
-        if (self::DigitCheck() == false) {return false;}
-        //最大桁数チェック
-        if (self::MaxDigitCheck() == false) {return false;}
-        //重複チェック
-        if (self::DuplicationCheck() == false) {return false;}
-        //書式チェック
-        if (self::FormatCheck() == false) {return false;}
+        // //必須チェック
+        // if (self::RequisitionCheck() == false) {return false;}
+        // //桁数チェック
+        // if (self::DigitCheck() == false) {return false;}
+        // //最大桁数チェック
+        // if (self::MaxDigitCheck() == false) {return false;}
+        // //重複チェック
+        // if (self::DuplicationCheck() == false) {return false;}
+        // //書式チェック
+        // if (self::FormatCheck() == false) {return false;}
 
-        return true;
+        // return true;
+
+         //必須チェック
+         $judge_Requisiton = self::RequisitionCheck();
+         //桁数チェック
+         self::DigitCheck();
+         //最大桁数チェック
+         self::MaxDigitCheck();
+         //重複チェック
+         self::DuplicationCheck();
+         //書式チェック
+         self::FormatCheck();
+ 
+         return true;
     }
 
     //method: 必須チェック
@@ -81,15 +94,15 @@ class Validation
         $mail_address = $_GET['mail_address'];
 
         //explain: エラーメッセージの表示
-        if (strlen($family_name) >= 25) {Message::pushMessage("社員名(性)は25文字以内で入力してください");}
-        if (strlen($first_name) >= 25) {Message::pushMessage("社員名(名)は25文字以内で入力してください");}
-        if (strlen($mail_address) >= 256) {Message::pushMessage("メールアドレスは256文字以内で入力してください");}
+        if (strlen($family_name) > 25) {Message::pushMessage("社員名(性)は25文字以内で入力してください");}
+        if (strlen($first_name) > 25) {Message::pushMessage("社員名(名)は25文字以内で入力してください");}
+        if (strlen($mail_address) > 256) {Message::pushMessage("メールアドレスは256文字以内で入力してください");}
 
         //explain: 最大桁数以上の場合は「社員登録画面」に遷移
         //          適切な入力の場合は「登録結果画面」に遷移
-        if (strlen($family_name) >= 25
-            || strlen($first_name) >= 25
-            || strlen($mail_address) >= 256) {
+        if (strlen($family_name) > 25
+            || strlen($first_name) > 25
+            || strlen($mail_address) > 256) {
             return false;
         }
 
@@ -119,20 +132,25 @@ class Validation
             $database_employee_id = $employee_data[$i][1];
             $database_mail_address = $employee_data[$i][5];
 
+
+            //Todo: 別々の社員の社員IDとメールアドレスが既に存在している場合に、エラーメッセージを片方しか表示できていない
             //explain: エラーメッセージの表示
             if ($database_employee_id == $employee_id) {
                 $judge_employee_id = false;
                 Message::pushMessage("入力した社員IDはすでに登録されています");}
             if ($database_mail_address == $mail_address) {
                 $judge_mail_address = false;
-                Message::pushMessage("入力したメールアドレスはすでに登録されています");}
+                Message::pushMessage("入力したメールアドレスはすでに登録されています");
+            }
 
+           
+            
+        }
             //explain: 重複項目がある場合は「社員登録画面」に遷移
             //         重複が無い場合は「登録結果画面」に遷移
             if (!$judge_employee_id || !$judge_mail_address) {
                 return false;
             }
-        }
         return true;
     }
 
@@ -149,7 +167,7 @@ class Validation
         //explain: 正規表現での書式判定
         $correct_employee_id = preg_match("/^[YZ]+([0-9]{8})/", $employee_id);
         $correct_section_id = preg_match("/[1-3]/", $section_id);
-        $correct_mail_address = preg_match("/^[a-zA-Z0-9_.+-]{0,128}+[@]+[a-zA-Z0-9.-]{0,128}+$/", $mail_address); //Todo: メールアドレスはユーザー名が128文字以下とドメイン名が128文字以下の256文字以下に設定されているため後に修正
+        $correct_mail_address = preg_match("/^[a-zA-Z0-9_.+-]{1,256}+[@]+[a-zA-Z0-9.-]{1,256}+$/", $mail_address); 
         $correct_gender_id = preg_match("/[1-2]/", $gender_id);
         $validation_check = $correct_employee_id + $correct_section_id + $correct_mail_address + $correct_gender_id;
 
