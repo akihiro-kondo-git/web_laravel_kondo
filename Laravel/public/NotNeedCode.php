@@ -1,18 +1,17 @@
 <?php
-//現在利用していません(08/17)
-// namespace App\Http\Controllers\EmployeeData;
-// use App\Models\Employee;
+//--------------------------------------------------------------------------------------------------//
+//------------------------------今後利用するかもしれないコードの補完クラス----------------------------//
+//--------------------------------------------------------------------------------------------------//
 
-// class AllEmployee
-// {
+
+
 //     public static $employee_data = array();
-
 //     public static $employee_id = array();
 //     public static $family_name = array();
 //     public static $first_name = array();
 //     public static $section_name = array();
 //     public static $mail_address = array();
-//     public static $gender = array();
+//  public static $gender = array();
 
 
 // public static $sec_name = array();

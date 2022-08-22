@@ -1,4 +1,8 @@
 <?php
+//--------------------------------------------------------------------------------------------------//
+//-----------------------------------入力値のチェッククラス------------------------------------------//
+//--------------------------------------------------------------------------------------------------//
+
 
 namespace App\Http\Controllers\Validation;
 
@@ -9,30 +13,28 @@ class Validation
 {
     public static function InputCheck()
     {
-        // //必須チェック
-        // if (self::RequisitionCheck() == false) {return false;}
-        // //桁数チェック
-        // if (self::DigitCheck() == false) {return false;}
-        // //最大桁数チェック
-        // if (self::MaxDigitCheck() == false) {return false;}
-        // //重複チェック
-        // if (self::DuplicationCheck() == false) {return false;}
-        // //書式チェック
-        // if (self::FormatCheck() == false) {return false;}
-
-        // return true;
 
          //必須チェック
          $judge_Requisiton = self::RequisitionCheck();
          //桁数チェック
-         self::DigitCheck();
+         $judge_Digit = self::DigitCheck();
          //最大桁数チェック
-         self::MaxDigitCheck();
+         $judge_MaxDigit = self::MaxDigitCheck();
          //重複チェック
-         self::DuplicationCheck();
+         $judge_Duplication = self::DuplicationCheck();
          //書式チェック
-         self::FormatCheck();
+         $judge_Format = self::FormatCheck();
  
+
+         //explain: チェックでfalseの場合は「社員登録画面」遷移
+        if($judge_Requisiton == false
+        || $judge_Digit == false
+        || $judge_MaxDigit == false
+        || $judge_Duplication == false
+        || $judge_Format == false){
+            return false;
+        }
+        //explain: 「登録結果画面」に遷移
          return true;
     }
 
@@ -125,7 +127,7 @@ class Validation
 
         //explain: データベースからデータを取得
         $employee = new Employee();
-        $employee_data = $employee->get_employee();
+        $employee_data = $employee->pdo_get_employee();
 
         //explain: 社員データと入力されたデータの重複判定
         for ($i = 0; $i < count($employee_data); $i++) {

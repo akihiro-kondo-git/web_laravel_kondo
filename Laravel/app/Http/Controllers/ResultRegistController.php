@@ -1,8 +1,10 @@
 <?php
+//--------------------------------------------------------------------------------------------------//
+//-----------------------------------登録結果画面へのコントローラー-----------------------------------//
+//--------------------------------------------------------------------------------------------------//
+
 
 namespace App\Http\Controllers;
-
-
 use Illuminate\Http\Request;
 use App\Http\Controllers\Validation\Validation;
 use App\Models\Employee;
@@ -16,10 +18,10 @@ class ResultRegistController extends Controller
             return view('regist-employee');
         }
 
-        //explain: 社員の登録
+        //explain: 社員の登録(PDO利用の場合：PDO_regist_employee(), saveメソッド利用の場合:save_regist_employee())
         if(Validation::InputCheck() == true){
             $employee = new Employee;
-            $employee->save_regist_employee();
+            $employee->pdo_regist_employee();
         }
         
         //explain: 「登録結果画面」に遷移

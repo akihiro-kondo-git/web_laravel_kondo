@@ -1,4 +1,8 @@
 <?php
+//--------------------------------------------------------------------------------------------------//
+//----------------------------------社員の詳細情報をセットするクラス----------------------------------//
+//--------------------------------------------------------------------------------------------------//
+
 namespace App\Http\Controllers\EmployeeData;
 use App\Models\Employee;
 
@@ -14,7 +18,9 @@ class EmployeeData
     //method: 社員情報のセットメソッド
     public static function setInfo($id)
     {
-        $employee_data = Employee::get_Info($id);
+        //explain: データの取得
+        //(PDOを利用しない場合:「get_Info($id)」メソッドを利用)
+        $employee_data = Employee::pdo_get_info($id);
 
         //explain: 社員ID・社員名・メールアドレスのセット
         self::$employee_id = $employee_data[1];

@@ -1,10 +1,24 @@
 <?php
+//--------------------------------------------------------------------------------------------------//
+//--------------------------------------データベース操作のクラス-------------------------------------//
+//--------------------------------------------------------------------------------------------------//
+
 
 namespace App\Models;
-
 use App\Http\Controllers\Message\Message;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use PDO;
+
+
+//explain: データベース操作クラス
+// Laravelでのデータ登録:Laravel_regist_employee()
+// PDOを利用したデータ登録:pdo_regist_employee()
+// PDOを利用した一覧データ表示:pdo_get_employee()
+// PDOを利用した詳細データ表示:pdo_get_info()
+// PDOを利用しないデータ登録:normal_regist_employee()
+// PDOを利用しない一覧データ表示:normal_get_employee()
+// PDOを利用しない詳細データ表示:noraml_get_info()
 
 class Employee extends Model
 {
@@ -14,11 +28,10 @@ class Employee extends Model
     public $incrementing = true;
 
 //--------------------------------------------------------------------------------------------------//
-//---------------------------------Laravelのsaveメソッド------------------------------------//
+//-----------------------------------Laravelでのデータベース操作-------------------------------------//
 //--------------------------------------------------------------------------------------------------//
 
-
-    public static function save_regist_employee()
+    public static function laravel_regist_employee()
     {
 
         $employee = new \App\Models\Employee;
@@ -33,7 +46,6 @@ class Employee extends Model
 
         //$current_id = $employee->select('id')->get();
 
-       
         //$employee->id = 'defalut';
         $employee->employee_id = $employee_id;
         $employee->family_name = $family_name;
@@ -45,16 +57,12 @@ class Employee extends Model
         Message::setMessage("データを登録しました");
     }
 
-    
-
 //--------------------------------------------------------------------------------------------------//
 //---------------------------------PDOを利用しないデータベース操作------------------------------------//
 //--------------------------------------------------------------------------------------------------//
 
-//////////////////////////////////////////////////////////////////////////////////////////
-
     //explain: Employeeデータ登録メソッド
-    public static function regist_employee()
+    public static function normal_regist_employee()
     {try {
 
         //explain: データの取得
@@ -84,8 +92,9 @@ class Employee extends Model
     }
     }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
     //explain　Employeeデータ表示メソッド
-    public static function get_employee()
+    public static function normal_get_employee()
     {try {
 
         //explain: データベースへの接続
@@ -119,7 +128,7 @@ class Employee extends Model
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 //explain　Employeeデータ表示メソッド
-    public static function get_Info($id)
+    public static function normal_get_info($id)
     {try {
         $employee_data = array();
         //explain: データベースへの接続
@@ -139,6 +148,7 @@ class Employee extends Model
         $employee_data[5] = $row['mail'];
         $employee_data[6] = $row['gender_id'];
 
+        //explain: エラーメッセージの出力
     } catch (SQLException $e) {
         echo $e;
     } finally {
@@ -152,14 +162,14 @@ class Employee extends Model
     }
 
 //--------------------------------------------------------------------------------------------------//
-//---------------------------------PDOを利用するデータベース操作------------------------------------//
+//-----------------------------------PDOを利用するデータベース操作------------------------------------//
 //--------------------------------------------------------------------------------------------------//
 
-    //現在PDOは利用できていません(08/17)
-    public static function PDO_regist_employee()
+    //PDOによるデータの登録メソッド
+    public static function pdo_regist_employee()
     {
 
-        //explain: データの取得
+        //explain: 入力データの取得
         $employee_id = $_GET['employee_id'];
         $family_name = $_GET['family_name'];
         $first_name = $_GET['first_name'];
@@ -169,19 +179,19 @@ class Employee extends Model
 
         try {
             //explain: データベースへの接続
-            $pdo = new PDO('pgsql:dbname=company_directory; host=localhost; user=homestead; password=secret');
+            $database = 'pgsql:dbname=company_directory; host=localhost; port=5432;';
+            $user = 'homestead';
+            $password = 'secret';
+            $pdo = new PDO($database, $user, $password);
 
-            //トランザクション開始
+            //explain: トランザクション開始
             $pdo->beginTransaction();
 
             //explain: テーブルへの登録
-            $stmt = $pdo->prepare('INSERT INTO employee VALUES(default, employee_id = :employee_id,
-                                                                    family_name = :family_name,
-                                                                    first_name = :first_name,
-                                                                    section_id = section_id,
-                                                                    mail = mail,
-                                                                    gender_id = :gender_id)');
+            $stmt = $pdo->prepare('INSERT INTO employee VALUES(default, :employee_id,:family_name,:first_name,
+                                                                        :section_id,:mail,:gender_id)');
 
+            //explain: 入力データの挿入
             $stmt->bindParam(':employee_id', $employee_id, PDO::PARAM_INT);
             $stmt->bindParam(':family_name', $family_name, PDO::PARAM_STR);
             $stmt->bindParam(':first_name', $first_name, PDO::PARAM_STR);
@@ -189,18 +199,19 @@ class Employee extends Model
             $stmt->bindParam(':mail', $mail, PDO::PARAM_STR);
             $stmt->bindParam(':gender_id', $gender_id, PDO::PARAM_INT);
 
-            //SQLの実行
+            //explain: SQLの実行
             $res = $stmt->execute();
 
-            //コミット
-            if ($res) {$pdo->commit();
-            }
+            //explain: コミット
+            if ($res) {$pdo->commit();}
+            Message::setMessage("データを登録しました");
 
         } catch (PDOException $e) {
 
-            //エラーメッセージを出力とロールバック
+            //explain: エラーメッセージを出力とロールバック
             echo $e->getMessage();
             $pdo->rollBack();
+            Message::setMessage("データを登録できませんでした");
 
         } finally {
 
@@ -210,4 +221,81 @@ class Employee extends Model
         }
 
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////
+
+    //explain　PDOによるデータ表示メソッド
+    public static function pdo_get_employee()
+    {try {
+        //explain: データベースへの接続
+        $database = 'pgsql:dbname=company_directory; host=localhost; port=5432;';
+        $user = 'homestead';
+        $password = 'secret';
+        $pdo = new PDO($database, $user, $password);
+
+        //explain: トランザクション開始
+        $pdo->beginTransaction();
+
+        //explain: SQL文のセット
+        $stmt = $pdo->prepare('SELECT * FROM employee');
+
+        //explain: SQLの実行
+        $stmt->execute();
+
+        //explain: SQLの結果をまとめて配列に格納
+        $data = $stmt->fetchALL();
+
+
+    } catch (PDOException $e) {
+
+        //エラーメッセージを出力とロールバック
+        echo $e->getMessage();
+        $pdo->rollBack();
+
+    } finally {
+
+        //explain: データベースの切断
+        $pdo = null;
+    }
+        
+        return $data;
+    }
+    //////////////////////////////////////////////////////////////////////////////////////////////
+
+    //explain: PDOによる詳細データ表示メソッド
+    public static function pdo_get_info($id)
+    {try {
+        //explain: データベースへの接続
+        $database = 'pgsql:dbname=company_directory; host=localhost; port=5432;';
+        $user = 'homestead';
+        $password = 'secret';
+        $pdo = new PDO($database, $user, $password);
+
+        //explain: トランザクション開始
+        $pdo->beginTransaction();
+
+        //explain: SQL文のセット
+        $stmt = $pdo->prepare("SELECT * FROM employee WHERE employee_id = :employee_id ");
+
+        $stmt->bindParam(':employee_id', $id, PDO::PARAM_INT);
+
+        //explain: SQLの実行
+        $stmt->execute();
+
+        //explain: SQLの結果をまとめて配列に格納
+        $employee_data = $stmt->fetch();
+
+    //explain: エラーメッセージを出力とロールバック
+    } catch (PDOException $e) { 
+        echo $e->getMessage();
+        $pdo->rollBack();
+
+        //explain: データベースの切断
+    } finally {
+        $pdo = null;
+    }
+        
+        return $employee_data;
+    }
+
 }

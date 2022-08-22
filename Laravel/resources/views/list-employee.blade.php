@@ -42,8 +42,10 @@ function show_employee()
 {
 
 //explain: データベースからデータを取得
+//(PDOを利用しない場合:「get_employee()」メソッドを利用)
+
     $employee = new Employee();
-    $employee_data = $employee->get_employee();
+    $employee_data = $employee->pdo_get_employee();
 
 //explain: 取得したデータを各変数に代入
     for ($i = 0; $i < count($employee_data); $i++) {
@@ -90,6 +92,8 @@ function show_employee()
 
 
 <!-- 以下css -->
+
+
 
 
 
