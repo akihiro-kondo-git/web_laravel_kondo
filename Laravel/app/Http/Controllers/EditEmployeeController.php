@@ -1,18 +1,16 @@
 <?php
 //--------------------------------------------------------------------------------------------------//
-//-----------------------------------社員一覧画面へのコントローラー-----------------------------------//
+//-----------------------------------社員編集画面へのコントローラー-----------------------------------//
 //--------------------------------------------------------------------------------------------------//
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-
-class ListEmployeeController extends Controller
+class EditEmployeeController extends Controller
 {
     public function index(){
         
-        //explain: 社員一覧画面へ遷移
-        return view('list-employee');
+        //explain: 社員編集画面へ遷移
+        return view('edit-employee');
     }
-
 }

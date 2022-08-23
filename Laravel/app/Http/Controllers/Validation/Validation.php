@@ -43,12 +43,12 @@ class Validation
     {
 
         //explain: 入力された値の取得
-        $employee_id = $_GET['employee_id'];
-        $family_name = $_GET['family_name'];
-        $first_name = $_GET['first_name'];
-        $section_id = $_GET['section_id'];
-        $mail_address = $_GET['mail_address'];
-        $gender_id = $_GET['gender_id'];
+        $employee_id = $_POST['employee_id'];
+        $family_name = $_POST['family_name'];
+        $first_name = $_POST['first_name'];
+        $section_id = $_POST['section_id'];
+        $mail_address = $_POST['mail_address'];
+        $gender_id = $_POST['gender_id'];
 
         //explain: エラーメッセージの表示
         if (empty($employee_id)) {Message::pushMessage("社員IDを入力してください");}
@@ -75,7 +75,7 @@ class Validation
     public static function DigitCheck()
     {
         //explain: 入力された値の取得
-        $employee_id = $_GET['employee_id'];
+        $employee_id = $_POST['employee_id'];
 
         //explain: エラーメッセージの表示
         if (strlen($employee_id) < 10
@@ -91,9 +91,9 @@ class Validation
     {
 
         //explain: 入力された値の取得
-        $family_name = $_GET['family_name'];
-        $first_name = $_GET['first_name'];
-        $mail_address = $_GET['mail_address'];
+        $family_name = $_POST['family_name'];
+        $first_name = $_POST['first_name'];
+        $mail_address = $_POST['mail_address'];
 
         //explain: エラーメッセージの表示
         if (strlen($family_name) > 25) {Message::pushMessage("社員名(性)は25文字以内で入力してください");}
@@ -118,12 +118,12 @@ class Validation
         $judge_mail_address = true;
 
         //explain: 入力された値の取得
-        $employee_id = $_GET['employee_id'];
-        $family_name = $_GET['family_name'];
-        $first_name = $_GET['first_name'];
-        $section_id = $_GET['section_id'];
-        $mail_address = $_GET['mail_address'];
-        $gender_id = $_GET['gender_id'];
+        $employee_id = $_POST['employee_id'];
+        $family_name = $_POST['family_name'];
+        $first_name = $_POST['first_name'];
+        $section_id = $_POST['section_id'];
+        $mail_address = $_POST['mail_address'];
+        $gender_id = $_POST['gender_id'];
 
         //explain: データベースからデータを取得
         $employee = new Employee();
@@ -161,10 +161,10 @@ class Validation
     {
 
         //explain: 入力された値の取得
-        $employee_id = $_GET['employee_id'];
-        $section_id = $_GET['section_id'];
-        $mail_address = $_GET['mail_address'];
-        $gender_id = $_GET['gender_id'];
+        $employee_id = $_POST['employee_id'];
+        $section_id = $_POST['section_id'];
+        $mail_address = $_POST['mail_address'];
+        $gender_id = $_POST['gender_id'];
 
         //explain: 正規表現での書式判定
         $correct_employee_id = preg_match("/^[YZ]+([0-9]{8})/", $employee_id);
