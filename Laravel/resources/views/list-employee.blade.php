@@ -2,6 +2,8 @@
 //--------------------------------------------------------------------------------------------------//
 //------------------------------------------社員一覧画面---------------------------------------------//
 //--------------------------------------------------------------------------------------------------//
+
+//Todo: 社員データ一覧表示の際、順番が社員IDの昇順になっていない
 ?>
 <!DOCTYPE html>
 <html>
@@ -12,7 +14,7 @@
 <body>
 <table>
             <tr>
-                <td>&emsp;社員ID</td>
+                <td>&nbsp;社員ID</td>
                 <td>&emsp;社員名</td>
                 <td>&emsp;所属セクション</td>
                 <td>&emsp;メールアドレス</td>
@@ -24,6 +26,7 @@
 
         </table>
     <br>
+    <a href = "{{route('regist-employee')}}">社員登録画面</a></br>
     <a href = "{{route('menu')}}">メニュー画面</a>
 
 </body>
@@ -51,6 +54,7 @@ function show_employee()
 
     $employee = new Employee();
     $employee_data = $employee->pdo_get_employee();
+
 
 //explain: 取得したデータを各変数に代入
     for ($i = 0; $i < count($employee_data); $i++) {
@@ -109,6 +113,7 @@ button.link-style{
   background: none;
   color: #0033cc;
   text-decoration: underline;
+  font-size: 16px
 }
 button.link-style:hover{
 

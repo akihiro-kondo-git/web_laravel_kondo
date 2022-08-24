@@ -1,0 +1,33 @@
+/* -------------------------------------------------------------------------------------------------- */
+/* ---------------------------------------社員登録画面のCSS------------------------------------------- */
+/* -------------------------------------------------------------------------------------------------- */
+.required:after {
+    content: " *";
+    color: red;
+}
+.asterisk:before {
+    content: " *";
+    color: red;
+
+}
+.require_box{
+    position: relative;
+    left: 30px;
+    bottom: 20px;
+}
+
+.error {
+ padding:12px;
+ font-weight:850;
+ color: red;
+}
+
+.box {
+    width: 1.1em;
+    border-top:1.5px solid;
+    border-bottom:1.5px solid;
+    border-left:none;
+    border-right:none;
+    pointer-events: none;
+}
+

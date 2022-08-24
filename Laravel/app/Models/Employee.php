@@ -167,7 +167,7 @@ class Employee extends Model
 //--------------------------------------------------------------------------------------------------//
 
     //PDOによるデータの登録メソッド
-    public static function pdo_regist_employee()
+    public static function pdo_regist_employee() 
     {
 
         //explain: 入力データの取得
@@ -208,10 +208,9 @@ class Employee extends Model
             Message::setMessage("データを登録しました");
 
         //explain: エラーメッセージを出力とロールバック
-        } catch (PDOException $e) {
-            echo $e->getMessage();
+        } catch (\PDOException $e) {
             $pdo->rollBack();
-            Message::setMessage("データを登録できませんでした");
+            Message::setMessage("データ登録に失敗しました");
 
         //explain: データベースの切断
         } finally {
@@ -236,7 +235,7 @@ class Employee extends Model
         $pdo->beginTransaction();
 
         //explain: SQL文のセット
-        $stmt = $pdo->prepare('SELECT * FROM employee');
+        $stmt = $pdo->prepare('SELECT * FROM employee ORDER BY employee_id');
 
         //explain: SQLの実行
         $stmt->execute();
@@ -295,6 +294,7 @@ class Employee extends Model
 
     //////////////////////////////////////////////////////////////////////////////////////////////////
 
+    //explain: PDOによるデータ更新メソッド
     public static function pdo_update_employee()
     {
 
@@ -335,10 +335,9 @@ class Employee extends Model
             Message::setMessage("データを更新しました");
 
         //explain: エラーメッセージを出力とロールバック
-        } catch (PDOException $e) {
-            echo $e->getMessage();
+        } catch (\PDOException $e) {
             $pdo->rollBack();
-            Message::setMessage("データを更新できませんでした");
+            Message::setMessage("データ更新に失敗しました");
 
         //explain: データベースの切断
         } finally {

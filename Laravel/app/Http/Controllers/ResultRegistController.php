@@ -6,6 +6,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Validation\Validation;
+use App\Http\Controllers\Message\Message;
 use App\Models\Employee;
 
 class ResultRegistController extends Controller
@@ -20,24 +21,33 @@ class ResultRegistController extends Controller
 
             //explain: サーバーサイドでの入力チェックエラーの場合は「社員登録画面」に遷移
             if (Validation::InputCheck() == false) {
-                return view('regist-employee');
-            }
+                 return view('regist-employee');
+             }
 
             //explain: 社員の登録
-            //PDO利用の場合：pdo_regist_employee()
+            //PDO利用の場合:pdo_regist_employee()
             //saveメソッド利用の場合:save_regist_employee())
             if (Validation::InputCheck() == true) {
                 $employee = new Employee;
-                $employee->pdo_regist_employee();
+                try{$employee->pdo_regist_employee();}
+                finally{return view('result-regist');}
             }
 
 
         //explain: 「社員編集画画面」からの遷移の場合
          } else if ($pastPage == "edit_page") {
 
+
+            //explain: サーバーサイドでの入力チェックエラーの場合は「社員編集画面」に遷移
+            if (Validation::updateCheck() == false) {
+                return view('edit-employee');
+            }
+
             //explain: 社員情報の更新
+            if (Validation::updateCheck() == true) {
             $employee = new Employee;
             $employee->pdo_update_employee();
+            }
 
         }
 
