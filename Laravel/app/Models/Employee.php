@@ -3,23 +3,24 @@
 //--------------------------------------データベース操作のクラス-------------------------------------//
 //--------------------------------------------------------------------------------------------------//
 
-
 namespace App\Models;
+
 use App\Http\Controllers\Message\Message;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use PDO;
 
-
 //explain: データベース操作メソッド一覧
 // Laravelでのデータ登録:laravel_regist_employee()
-// PDOを利用したデータ登録:pdo_regist_employee()
-// PDOを利用した一覧データ表示:pdo_get_employee()
-// PDOを利用した詳細データ表示:pdo_get_info()
 // PDOを利用したデータ更新:pdo_update_employee()
 // PDOを利用しないデータ登録:normal_regist_employee()
 // PDOを利用しない一覧データ表示:normal_get_employee()
 // PDOを利用しない詳細データ表示:noraml_get_info()
+// PDOを利用したデータ登録:pdo_regist_employee()
+// PDOを利用した一覧データ表示:pdo_get_employee()
+// PDOを利用した詳細データ表示:pdo_get_info()
+// PDOを利用したデータ削除:pdo_delete_employee()
+
 
 class Employee extends Model
 {
@@ -167,7 +168,7 @@ class Employee extends Model
 //--------------------------------------------------------------------------------------------------//
 
     //PDOによるデータの登録メソッド
-    public static function pdo_regist_employee() 
+    public static function pdo_regist_employee()
     {
 
         //explain: 入力データの取得
@@ -207,12 +208,12 @@ class Employee extends Model
             if ($res) {$pdo->commit();}
             Message::setMessage("データを登録しました");
 
-        //explain: エラーメッセージを出力とロールバック
-        } catch (\PDOException $e) {
+            //explain: エラーメッセージを出力とロールバック
+        } catch (\PDOException$e) {
             $pdo->rollBack();
             Message::setMessage("データ登録に失敗しました");
 
-        //explain: データベースの切断
+            //explain: データベースの切断
         } finally {
             $pdo = null;
 
@@ -243,16 +244,16 @@ class Employee extends Model
         //explain: SQLの結果をまとめて配列に格納
         $data = $stmt->fetchALL();
 
-    //explain: エラーメッセージを出力とロールバック
+        //explain: エラーメッセージを出力とロールバック
     } catch (PDOException $e) {
         echo $e->getMessage();
         $pdo->rollBack();
 
-    //explain: データベースの切断
+        //explain: データベースの切断
     } finally {
         $pdo = null;
     }
-        
+
         return $data;
     }
     //////////////////////////////////////////////////////////////////////////////////////////////
@@ -279,8 +280,8 @@ class Employee extends Model
         //explain: SQLの結果をまとめて配列に格納
         $employee_data = $stmt->fetch();
 
-    //explain: エラーメッセージを出力とロールバック
-    } catch (PDOException $e) { 
+        //explain: エラーメッセージを出力とロールバック
+    } catch (PDOException $e) {
         echo $e->getMessage();
         $pdo->rollBack();
 
@@ -288,7 +289,7 @@ class Employee extends Model
     } finally {
         $pdo = null;
     }
-        
+
         return $employee_data;
     }
 
@@ -334,16 +335,54 @@ class Employee extends Model
             if ($res) {$pdo->commit();}
             Message::setMessage("データを更新しました");
 
-        //explain: エラーメッセージを出力とロールバック
-        } catch (\PDOException $e) {
+            //explain: エラーメッセージを出力とロールバック
+        } catch (\PDOException$e) {
             $pdo->rollBack();
             Message::setMessage("データ更新に失敗しました");
 
-        //explain: データベースの切断
+            //explain: データベースの切断
         } finally {
             $pdo = null;
 
         }
 
     }
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    //explain: PDOによるデータ削除メソッド
+    public static function pdo_delete_employee($id){
+    // {try {
+    //     //explain: データベースへの接続
+    //     $database = 'pgsql:dbname=company_directory; host=localhost; port=5432;';
+    //     $user = 'homestead';
+    //     $password = 'secret';
+    //     $pdo = new PDO($database, $user, $password);
+
+    //     //explain: トランザクション開始
+    //     $pdo->beginTransaction();
+
+    //     //explain: SQL文のセット
+    //     $stmt = $pdo->prepare("DELETE FROM employee WHERE employee_id = :employee_id ");
+    //     $stmt->bindParam(':employee_id', $id, PDO::PARAM_INT);
+
+    //     //explain: SQLの実行
+    //     $res = $stmt->execute();
+
+    //     //explain: コミット
+    //     if ($res) {$pdo->commit();}
+    //     Message::setMessage("データを削除しました");
+
+    //     //explain: エラーメッセージを出力とロールバック
+    // } catch (\PDOException$e) {
+    //     $pdo->rollBack();
+    //     Message::setMessage("データ削除に失敗しました");
+
+    //     //explain: データベースの切断
+    // } finally {
+    //     $pdo = null;
+    
+    }
+//}
+
 }

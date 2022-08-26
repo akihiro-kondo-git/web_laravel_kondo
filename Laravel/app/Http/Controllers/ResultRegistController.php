@@ -51,6 +51,16 @@ class ResultRegistController extends Controller
 
         }
 
+
+        //explain: 「社員参照画面」からの遷移の場合
+        else if ($pastPage == "refer_page") {
+            $id = $_POST['employee_id'];
+                $employee = new Employee;
+                try{$employee->pdo_delete_employee($id);}
+                finally{return view('result-regist');}
+            }
+
+
         //explain: 「登録結果画面」に遷移
         return view('result-regist');
     }

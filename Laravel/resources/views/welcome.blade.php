@@ -7,6 +7,7 @@
     <!--メニュー画面に遷移-->
     <a href ="{{route('menu')}}">社員名簿管理システム（簡易版）</a>
 </html>
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>

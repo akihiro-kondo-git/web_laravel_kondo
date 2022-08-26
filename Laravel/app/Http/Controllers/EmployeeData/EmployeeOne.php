@@ -6,7 +6,7 @@
 namespace App\Http\Controllers\EmployeeData;
 use App\Models\Employee;
 
-class EmployeeData
+class EmployeeOne
 {
 
     public static $employee_id;
