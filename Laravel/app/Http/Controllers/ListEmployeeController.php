@@ -13,7 +13,6 @@ class ListEmployeeController extends Controller
         
         //explain: 社員一覧画面へ遷移
          return view('list-employee');
-       // return view('regist-employee');
     }
 
 }

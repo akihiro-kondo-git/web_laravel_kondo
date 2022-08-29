@@ -2,11 +2,13 @@
 //----------------------------------社員参照画面のJavaScript-----------------------------------------//
 //--------------------------------------------------------------------------------------------------//
 
+// message 下記を利用しダイアログ表示予定
+
 //explain: ダイアログの表示
-function dialog(){    
-    var delete_button = document.getElementById('delete');
-    var result = window.confirm('データを削除します。\r\nよろしいですか。');
-    if(result == true ) {return true;
-    }else{return false;}
+// function dialog(){    
+//     var delete_button = document.getElementById('delete');
+//     var result = window.confirm('データを削除します。\r\nよろしいですか。');
+//     if(result == true ) {return true;
+//     }else{return false;}
     
-}
+// }

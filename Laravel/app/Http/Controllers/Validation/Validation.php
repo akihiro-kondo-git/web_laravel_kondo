@@ -19,13 +19,13 @@ class Validation
          //必須チェック
          $judge_Requisiton = Check::RequisitionCheck();
          //桁数チェック
-         if($judge_Requisiton){$judge_Digit = Check::DigitCheck();}
+         $judge_Digit = Check::DigitCheck();
          //最大桁数チェック
          $judge_MaxDigit = Check::MaxDigitCheck();
          //重複チェック
          $judge_Duplication = Check::DuplicationCheck();
          //書式チェック
-         if($judge_Requisiton){$judge_Format = Check::FormatCheck();}
+         $judge_Format = Check::FormatCheck();
  
 
          //explain: チェックでfalseの場合は「社員登録画面」遷移
@@ -48,13 +48,13 @@ class Validation
          //必須チェック
          $judge_Requisiton = Check::RequisitionCheck();
          //桁数チェック
-         if($judge_Requisiton){$judge_Digit = Check::DigitCheck();}
+         $judge_Digit = Check::DigitCheck();
          //最大桁数チェック
          $judge_MaxDigit = Check::MaxDigitCheck();
          //重複チェック
          $judge_Duplication = Check::DuplicationMailCheck();
          //書式チェック
-         if($judge_Requisiton){$judge_Format = Check::FormatCheck();}
+         $judge_Format = Check::FormatCheck();
  
 
          //explain: チェックでfalseの場合は「社員編集画面」に遷移

@@ -3,23 +3,15 @@
 //---------------------------入力値のチェックメソッドをまとめたクラス----------------------------------//
 //--------------------------------------------------------------------------------------------------//
 namespace App\Http\Controllers\Validation;
+
 use App\Http\Controllers\Message\Message;
 use App\Models\Employee;
 
 class Check
-
 {
     //method: 必須チェック
     public static function RequisitionCheck()
     {
-
-        //explain: 入力された値の取得
-        // $employee_id = $_POST['employee_id'];
-        // $family_name = $_POST['family_name'];
-        // $first_name = $_POST['first_name'];
-        // $section_id = $_POST['section_id'];
-        // $mail_address = $_POST['mail_address'];
-        //$gender_id = $_POST['gender_id'];
 
         //explain: エラーメッセージの表示
         if (empty($_POST['employee_id'])) {Message::pushMessage("社員IDを入力してください");}
@@ -42,22 +34,25 @@ class Check
         return true;
     }
 
-     //////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////
+    
     //桁数チェック
     public static function DigitCheck()
     {
         //explain: 入力された値の取得
-        $employee_id = $_POST['employee_id'];
+        if (!empty($_POST['employee_id'])) {
+            $employee_id = $_POST['employee_id'];
 
-        //explain: エラーメッセージの表示
-        if (strlen($employee_id) < 10
-            || strlen($employee_id) > 10) {
-            Message::pushMessage("社員IDは10文字で入力してください");
-            return false;
+            //explain: エラーメッセージの表示
+            if (strlen($employee_id) != 10) {
+                Message::pushMessage("社員IDは10文字で入力してください");
+                return false;
+            }
+            return true;
         }
-        return true;
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
     //method: 最大桁数チェック
     public static function MaxDigitCheck()
     {
@@ -82,7 +77,8 @@ class Check
 
         return true;
     }
-     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
     //method: 重複チェック
     public static function DuplicationCheck()
     {
@@ -102,8 +98,6 @@ class Check
             $database_employee_id = $employee_data[$i][1];
             $database_mail_address = $employee_data[$i][5];
 
-
-            //Todo: 別々の社員の社員IDとメールアドレスが既に存在している場合に、エラーメッセージを片方しか表示できていない
             //explain: エラーメッセージの表示
             if ($database_employee_id == $employee_id) {
                 $judge_employee_id = false;
@@ -112,18 +106,16 @@ class Check
                 $judge_mail_address = false;
                 Message::pushMessage("入力したメールアドレスはすでに登録されています");
             }
-
-           
-            
         }
-            //explain: 重複項目がある場合は「社員登録画面」に遷移
-            //         重複が無い場合は「登録結果画面」に遷移
-            if (!$judge_employee_id || !$judge_mail_address) {
-                return false;
-            }
+        //explain: 重複項目がある場合は「社員登録画面」に遷移
+        //         重複が無い場合は「登録結果画面」に遷移
+        if (!$judge_employee_id || !$judge_mail_address) {
+            return false;
+        }
         return true;
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
     //method: 重複チェック
     public static function DuplicationMailCheck()
     {
@@ -137,18 +129,18 @@ class Check
         $employee_data = $employee->pdo_get_employee();
 
         //explain: セッション情報と入力値の判定
-        if(session()->get('mail_address') != $mail_address){
+        if (session()->get('mail_address') != $mail_address) {
 
-        //explain: 社員データと入力されたデータの重複判定
-        for ($i = 0; $i < count($employee_data); $i++) {
-            $database_mail_address = $employee_data[$i][5];
+            //explain: 社員データと入力されたデータの重複判定
+            for ($i = 0; $i < count($employee_data); $i++) {
+                $database_mail_address = $employee_data[$i][5];
 
-            //explain: エラーメッセージの表示
-            if ($database_mail_address == $mail_address) {
-                $judge_mail_address = false;
-                Message::pushMessage("入力したメールアドレスはすでに登録されています");
+                //explain: エラーメッセージの表示
+                if ($database_mail_address == $mail_address) {
+                    $judge_mail_address = false;
+                    Message::pushMessage("入力したメールアドレスはすでに登録されています");
+                }
             }
-        }
             //explain: 重複項目がある場合は「社員編集画面」に遷移
             //         重複が無い場合は「登録結果画面」に遷移
             if (!$judge_mail_address) {
@@ -158,28 +150,48 @@ class Check
         return true;
     }
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
     //method: 書式チェック
     public static function FormatCheck()
     {
 
-        //explain: 入力された値の取得
-        $employee_id = $_POST['employee_id'];
-        $section_id = $_POST['section_id'];
-        $mail_address = $_POST['mail_address'];
-        $gender_id = $_POST['gender_id'];
+        $judge_employee_id = 0;
+        $judge_section_id = 0;
+        $judge_mail_address = 0;
+        $judge_gender_id = 0;
 
-        //explain: 正規表現での書式判定
-        $correct_employee_id = preg_match("/^[YZ]+([0-9]{8})/", $employee_id);
-        $correct_section_id = preg_match("/[1-3]/", $section_id);
-        $correct_mail_address = preg_match("/^[a-zA-Z0-9_.+-]{1,256}+[@]+[a-zA-Z0-9.-]{1,256}+$/", $mail_address); 
-        $correct_gender_id = preg_match("/[1-2]/", $gender_id);
-        $validation_check = $correct_employee_id + $correct_section_id + $correct_mail_address + $correct_gender_id;
+        //explain: 社員IDの書式判定
+        if (!empty($_POST['employee_id'])) {
+            $employee_id = $_POST['employee_id'];
+            $judge_employee_id = preg_match("/^[YZ]+([0-9])/", $employee_id);
+            if ($judge_employee_id == 0) {Message::pushMessage("社員IDを正しく入力してください");}
+        }
+        
+        //explain: 所属セクションの書式判定
+        if (!empty($_POST['section_id'])) {
+            $section_id = $_POST['section_id'];
+            $judge_section_id = preg_match("/[1-3]/", $section_id);
+            if ($judge_section_id == 0) {Message::pushMessage("所属セクションを正しく入力してください");}}
 
-        //explain: エラーメッセージの表示
-        if ($correct_employee_id == 0) {Message::pushMessage("社員IDを正しく入力してください");}
-        if ($correct_section_id == 0) {Message::pushMessage("所属セクションを正しく入力してください");}
-        if ($correct_mail_address == 0) {Message::pushMessage("メールアドレスを正しく入力してください");}
-        if ($correct_gender_id == 0) {Message::pushMessage("性別を正しく入力してください");}
+        //explain: メールアドレスの書式判定
+        if (!empty($_POST['mail_address'])) {
+            $mail_address = $_POST['mail_address'];
+            $judge_mail_address = preg_match("/^[a-zA-Z0-9_.+-]+[@]+[a-zA-Z0-9.-]+$/", $mail_address);
+            if ($judge_mail_address == 0) {Message::pushMessage("メールアドレスを正しく入力してください");}
+        }
+
+        //explain: 性別の書式判定
+        if (!empty($_POST['gender_id'])) {
+            $gender_id = $_POST['gender_id'];
+            $judge_gender_id = preg_match("/[1-2]/", $gender_id);
+            if ($judge_gender_id == 0) {Message::pushMessage("性別を正しく入力してください");}
+        }
+
+        //explain: 全項目が正規表現に合致するか判定
+        $validation_check = $judge_employee_id 
+                            + $judge_section_id 
+                            + $judge_mail_address 
+                            + $judge_gender_id;
 
         //explain: 正規表現に合致しない場合は「社員登録画面」に遷移
         //                  合致する場合は「登録結果画面」に遷移
@@ -189,9 +201,3 @@ class Check
         return true;
     }
 }
-
-
-
-
-
-
