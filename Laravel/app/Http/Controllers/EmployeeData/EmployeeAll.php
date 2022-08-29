@@ -19,11 +19,11 @@ class EmployeeAll
 
     public static function setArray()
     {
-
         //explain: データベースからデータを取得
         $employee = new Employee();
         $employee_data = $employee->pdo_get_employee();
-        //mb_convert_encoding($employee_data,'UTF-8','SJIS-win');
+
+        //explain: 配列の数を確認
         self::$count = count($employee_data);
 
         //explain: 取得したデータを各変数に代入
